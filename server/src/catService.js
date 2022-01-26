@@ -23,6 +23,16 @@ class CatService {
         }
     }
 
+    async getCatBreeds() {
+        try {
+            let _url = `v1/breeds`;
+            const response = await axiosInstance.get(_url);
+            return this._convertToCatBreeds(response.data);
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
     // Convert input objects to CatBreed instances
     _convertToCatBreeds(data) {
         let catBreeds = [];
