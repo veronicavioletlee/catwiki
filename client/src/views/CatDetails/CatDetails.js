@@ -81,24 +81,28 @@ const CatDetails = ({ error, breeds }) => {
 
     return (
         <Container>
-            <Row>
-                <Col lg="4">
-                    Image
-                </Col>
-                <Col>
-                    <h2>{breedDetails.name}</h2>
-                    <p> {breedDetails.description}</p>
-                    <Row>
-                        <DetailText title='Temperament' content={breedDetails.temperament}/>
-                        <DetailText title='Origin' content={breedDetails.origin}/>
-                        <DetailText title='Life Span' content={breedDetails.lifeSpan + " years"}/>
-                        <DetailRating title='Adaptability' value={breedDetails.adaptability}/>
-                        <DetailRating title='Affection Level' value={breedDetails.affection}/>
-                        <DetailRating title='Child Friendliness' value={breedDetails.childFriendliness}/>
-                        <DetailRating title='Grooming' value={breedDetails.grooming}/>
-                    </Row>
-                </Col>
-            </Row>
+            { error ? <p>Something went wrong. Please try again.</p>
+                : !breeds ? <p>Loading...</p>
+                    : (!breedDetails ? <p>Cat not found :(</p>
+                            : (<Row>
+                                <Col lg="4">
+                                    Image
+                                </Col>
+                                <Col>
+                                    <h2>{breedDetails.name}</h2>
+                                    <p> {breedDetails.description}</p>
+                                    <Row>
+                                        <DetailText title='Temperament' content={breedDetails.temperament}/>
+                                        <DetailText title='Origin' content={breedDetails.origin}/>
+                                        <DetailText title='Life Span' content={breedDetails.lifeSpan + " years"}/>
+                                        <DetailRating title='Adaptability' value={breedDetails.adaptability}/>
+                                        <DetailRating title='Affection Level' value={breedDetails.affection}/>
+                                        <DetailRating title='Child Friendliness'
+                                                      value={breedDetails.childFriendliness}/>
+                                        <DetailRating title='Grooming' value={breedDetails.grooming}/>
+                                    </Row>
+                                </Col>
+                            </Row>))}
         </Container>
     )
 }
