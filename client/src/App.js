@@ -1,47 +1,52 @@
-import React from "react";
-import {BrowserRouter as Router} from 'react-router-dom';
-import { Container, Navbar } from 'react-bootstrap';
+import { useEffect, useState } from 'react';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import logo from "./logo.svg";
-import "./App.css";
-import CatSearch from './catSearch/CatSearch';
+import './App.css';
+import Home from './views/Home/Home';
+import CatDetails from './views/CatDetails/CatDetails';
+import CatNav from "./components/CatNav";
 
 function App() {
-    const [data, setData] = React.useState(null);
+    const [breeds, setBreeds] = useState(null);
+    const [error, setError] = useState(null);
+    // const [isLoading, setIsLoading] = useState(true);
 
-    React.useEffect(() => {
-        fetch("/api")
+    let getBreeds = () => {
+        fetch('/api/breeds')
             .then((res) => res.json())
-            .then((data) => setData(data.message));
+            .then((data) => {
+                    setBreeds(data);
+                    // setIsLoading(false);
+                },
+                (error) => {
+                    // setIsLoading(false);
+                    setError(error);
+                })
+    }
+
+    useEffect(() => {
+        // setIsLoading(true);
+        getBreeds();
     }, []);
 
     return (
-        <>
-            <header className="App-header">
-                <Navbar bg="light">
-                    <Container>
-                        <Navbar.Brand href="#home">
-                            <img
-                                alt=""
-                                src={logo}
-                                width="30"
-                                height="30"
-                                className="App-logo"
-                                alt="logo"
-                                // className="d-inline-block align-top"
-                            />{' '}
-                            CatWiki
-                        </Navbar.Brand>
-                    </Container>
-                </Navbar>
-            </header>
-            <Router>
-                <div className="App">
-                        <img src={logo} className="App-logo" alt="logo"/>
-                        <p>{!data ? "Loading..." : data}</p>
-                    <CatSearch/>
-                </div>
-            </Router>
-        </>
+        <Router>
+            <div className="App">
+                <Switch>
+                    <Route path="/breeds/:breedId">
+                        <CatNav/>
+                        <CatDetails error={error} breeds={breeds}/>
+                    </Route>
+                    <Route path="/">
+                        <CatNav/>
+                        <Home />
+                    </Route>
+                </Switch>
+                {/*<img src={logo} className="App-logo" alt="logo"/>*/}
+                {/*<p>{!data ? "Loading..." : data}</p>*/}
+
+            </div>
+        </Router>
     );
 }
 

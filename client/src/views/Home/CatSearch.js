@@ -1,6 +1,11 @@
 import {useEffect, useState} from 'react';
+import Container from 'react-bootstrap/Container';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 
-import '../App.css';
+import '../../App.css';
+import { Link } from "react-router-dom";
+import './Home.css';
 
 const SearchBar = ({ searchQuery, setSearchQuery, setIsLoaded }) => {
     // TODO: Get writing of the search query to url history working
@@ -18,11 +23,12 @@ const SearchBar = ({ searchQuery, setSearchQuery, setIsLoaded }) => {
 
     return (
         <form
+            className="search-bar"
             autoComplete="off"
             onSubmit={handleSubmit}
         >
             <input
-                className="form-control form-control-sm ml-3 w-75"
+                className="form-control form-control-sm ml-3 w-25"
                 type="text"
                 id="breed-search"
                 placeholder="Search cat breeds"
@@ -56,22 +62,26 @@ const CatSearch = () => {
     }, [searchQuery]);
 
     return (
-        <>
-            <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} setIsLoaded={setIsLoaded} />
-            { error && <p>Something went wrong. Please try again.</p> }
-            { searchQuery && isLoaded ? (
-                <ul>
-                    Showing {breedResults.length} results for search "{searchQuery}"
-                    {breedResults.map(breed => (
-                            <li key={breed.id}>
-                                {breed.name}
-                            </li>
-                        )
-                    )}
-                </ul>
-            ) : searchQuery && <p>Searching..</p>
-            }
-        </>
+        <div>
+            <div>
+                    <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} setIsLoaded={setIsLoaded} />
+            </div>
+            <div className="CatSearch">
+                    { error && <p>Something went wrong. Please try again.</p> }
+                    { searchQuery && isLoaded ? (
+                        <ul>
+                            Showing {breedResults.length} results for search "{searchQuery}"
+                            {breedResults.map(breed => (
+                                    <li key={breed.id}>
+                                        <Link to={`/breeds/${breed.id}`}>{breed.name}</Link>
+                                    </li>
+                                )
+                            )}
+                        </ul>
+                    ) : searchQuery && <p>Searching..</p>
+                    }
+            </div>
+        </div>
     );
 }
 

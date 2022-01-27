@@ -1,0 +1,15 @@
+.CatSearch {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /*height:100vh;*/
+}
+
+.search-bar {
+    display: flex;
+    /*flex-direction: column;*/
+    justify-content: center;
+    align-items: center;
+    /*height:100vh;*/
+}
