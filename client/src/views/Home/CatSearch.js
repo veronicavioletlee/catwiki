@@ -1,10 +1,7 @@
 import {useEffect, useState} from 'react';
-import Container from 'react-bootstrap/Container';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
+import { Link } from "react-router-dom";
 
 import '../../App.css';
-import { Link } from "react-router-dom";
 import './Home.css';
 
 const SearchBar = ({ searchQuery, setSearchQuery, setIsLoaded }) => {
