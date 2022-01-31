@@ -12,7 +12,7 @@ const axiosInstance = axios.create({
 });
 
 class CatService {
-    // Search for cat breeds by breed name
+    // Searches for cat breeds by breed name
     async searchCatBreeds(searchTerm) {
         try {
             let _url = `v1/breeds/search?q=${searchTerm}`;
@@ -23,6 +23,7 @@ class CatService {
         }
     }
 
+    // Gets all cat breeds and required breed info
     async getCatBreeds() {
         try {
             let _url = `v1/breeds`;
@@ -33,28 +34,39 @@ class CatService {
         }
     }
 
-    // Convert input objects to CatBreed instances
-    _convertToCatBreeds(data) {
-        let catBreeds = [];
-        data.forEach((cat) => {
-            let catBreedInstance = new CatBreed(
-                cat.id,
-                cat.name,
-                cat.description,
-                cat.temperament,
-                cat.origin,
-                cat.life_span,
-                cat.adaptability,
-                cat.affection_level,
-                cat.child_friendly,
-                cat.grooming,
-                cat.intelligence,
-                cat.health_issues,
-                cat.social_needs,
-                cat.stranger_friendly);
-            catBreeds.push(catBreedInstance);
-        })
-        return catBreeds;
+    // Gets specified cat breed by id
+    async getCatBreed(breedId) {
+        try {
+            let _url = `v1/images/search?breed_id=${breedId}`;
+            const response = await axiosInstance.get(_url);
+            switch (response.data.length) {
+                case 0:
+                case 1: return this._mapCatBreedInfo(response.data[0]);
+                default: console.log(`Error retrieving breed details. More than 1 breed found for breed id ${breedId}`)
+            }
+            
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    // Converts the Cat API image search response to a CatBreed object with only the required info
+    _mapCatBreedInfo(breedData) {
+        return new CatBreed(
+            breedData.breeds[0].id,
+            breedData.breeds[0].name,
+            breedData.breeds[0].description,
+            breedData.breeds[0].temperament,
+            breedData.breeds[0].origin,
+            breedData.breeds[0].life_span,
+            breedData.breeds[0].adaptability,
+            breedData.breeds[0].affection_level,
+            breedData.breeds[0].child_friendly,
+            breedData.breeds[0].grooming,
+            breedData.breeds[0].intelligence,
+            breedData.breeds[0].health_issues,
+            breedData.breeds[0].social_needs,
+            breedData.breeds[0].stranger_friendly);
     }
 }
 

@@ -20,10 +20,15 @@ app.get('/api/breeds/search', async (req, res) => {
   res.json(response);
 })
 
-app.get('/api/breeds', async (req, res) => {
-  let response = await catService.getCatBreeds();
+app.get('/api/breeds/:breedId', async (req, res) => {
+  let response = await catService.getCatBreed(req.params.breedId);
   res.json(response);
 })
+
+// app.get('/api/breeds', async (req, res) => {
+//   let response = await catService.getCatBreeds();
+//   res.json(response);
+// })
 
 // All other GET requests not handled before will return our React app
 app.get('*', (req, res) => {
