@@ -1,8 +1,9 @@
 class CatBreed {
-    constructor(id, name, description, temperament, origin, lifeSpan, adaptability, affection, childFriendliness, grooming, intelligence, healthIssues, socialNeeds, strangerFriendliness) {
+    constructor(id, name, description, imageUrl, temperament, origin, lifeSpan, adaptability, affection, childFriendliness, grooming, intelligence, healthIssues, socialNeeds, strangerFriendliness) {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.imageUrl = imageUrl;
         this.temperament = temperament;
         this.origin = origin;
         this.lifeSpan = lifeSpan;

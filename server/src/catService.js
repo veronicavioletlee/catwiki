@@ -17,18 +17,11 @@ class CatService {
         try {
             let _url = `v1/breeds/search?q=${searchTerm}`;
             const response = await axiosInstance.get(_url);
-            return this._convertToCatBreeds(response.data);
-        } catch (e) {
-            console.log(e)
-        }
-    }
-
-    // Gets all cat breeds and required breed info
-    async getCatBreeds() {
-        try {
-            let _url = `v1/breeds`;
-            const response = await axiosInstance.get(_url);
-            return this._convertToCatBreeds(response.data);
+            let breedResults = response.data.map(breed => {
+                id: breed.id;
+                name: breed.name;
+            })
+            return breedResults;
         } catch (e) {
             console.log(e)
         }
@@ -41,7 +34,7 @@ class CatService {
             const response = await axiosInstance.get(_url);
             switch (response.data.length) {
                 case 0:
-                case 1: return this._mapCatBreedInfo(response.data[0]);
+                case 1: return this._mapToBreedDetail(response.data[0]);
                 default: console.log(`Error retrieving breed details. More than 1 breed found for breed id ${breedId}`)
             }
             
@@ -51,11 +44,12 @@ class CatService {
     }
 
     // Converts the Cat API image search response to a CatBreed object with only the required info
-    _mapCatBreedInfo(breedData) {
+    _mapToBreedDetail(breedData) {
         return new CatBreed(
             breedData.breeds[0].id,
             breedData.breeds[0].name,
             breedData.breeds[0].description,
+            breedData.url,
             breedData.breeds[0].temperament,
             breedData.breeds[0].origin,
             breedData.breeds[0].life_span,
