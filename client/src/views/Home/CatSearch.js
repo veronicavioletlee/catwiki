@@ -1,20 +1,24 @@
 import {useEffect, useState} from 'react';
-import { Link } from "react-router-dom";
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
+import ListGroup from 'react-bootstrap/ListGroup';
+import ListGroupItem from 'react-bootstrap/ListGroupItem';
+import Row from 'react-bootstrap/Row';
+import {Link} from 'react-router-dom';
 
 import '../../App.css';
 import './Home.css';
+import {CatService} from '../../services/catService';
 
-const SearchBar = ({ searchQuery, setSearchQuery, setIsLoaded }) => {
+const SearchBar = ({searchQuery, setSearchQuery, setIsLoading}) => {
     // TODO: Get writing of the search query to url history working
-    // const history = useHistory();
 
     const handleSubmit = event => {
         event.preventDefault();
         if (searchQuery !== event.target.name.value) {
-            setIsLoaded(false);
+            setIsLoading(true);
             setSearchQuery(event.target.name.value);
         }
-        // history.push(`?s=${searchQuery}`);
         event.target.name.value = null;
     };
 
@@ -40,45 +44,59 @@ const CatSearch = () => {
 
     const [breedResults, setBreedResults] = useState([]);
     const [searchQuery, setSearchQuery] = useState(null);
-    const [error, setError] = useState(null);
-    const [isLoaded, setIsLoaded] = useState(false);
+    const [error, setError] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+
+    let sortedBreedResults = breedResults.sort(function (a, b) {
+        return a.name.localeCompare(b.name);
+    });
 
     useEffect(() => {
         if (searchQuery) {
-            fetch(`/api/breeds/search?name=${searchQuery}`)
-                .then((res) => res.json())
+            CatService.searchBreeds(searchQuery)
                 .then((data) => {
                         setBreedResults(data);
-                        setIsLoaded(true);
+                        setIsLoading(false);
                     },
                     (error) => {
-                        setIsLoaded(true);
                         setError(error);
+                        setIsLoading(false);
                     })
         }
     }, [searchQuery]);
 
     return (
-        <div>
-            <div>
-                    <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} setIsLoaded={setIsLoaded} />
-            </div>
-            <div className="CatSearch">
-                    { error && <p>Something went wrong. Please try again.</p> }
-                    { searchQuery && isLoaded ? (
-                        <ul>
-                            Showing {breedResults.length} results for search "{searchQuery}"
-                            {breedResults.map(breed => (
-                                    <li key={breed.id}>
-                                        <Link to={`/breeds/${breed.id}`}>{breed.name}</Link>
-                                    </li>
-                                )
-                            )}
-                        </ul>
-                    ) : searchQuery && <p>Searching..</p>
-                    }
-            </div>
-        </div>
+        <Container fluid height="100vh">
+            <Row className="search-bar">
+                <Col>
+                    <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} setIsLoading={setIsLoading}/>
+                </Col>
+            </Row>
+            <Row>
+                <Col>
+                    <div className="cat-search">
+                        {error && <p>Something went wrong. Please try again.</p>}
+                        {searchQuery && !isLoading ? (
+                            <div className="cat-search-results">
+                                Showing {breedResults.length} {breedResults.length === 1 ? 'result' : 'results'} for
+                                search "{searchQuery}"
+                                <ListGroup>
+                                    <div className="cat-search-results-list">
+                                        {sortedBreedResults.map(breed => (
+                                                <ListGroupItem key={breed.id}>
+                                                    <Link to={`/breeds/${breed.id}`}>{breed.name}</Link>
+                                                </ListGroupItem>
+                                            )
+                                        )}
+                                    </div>
+                                </ListGroup>
+                            </div>
+                        ) : searchQuery && <p>Searching..</p>
+                        }
+                    </div>
+                </Col>
+            </Row>
+        </Container>
     );
 }
 

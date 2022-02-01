@@ -17,10 +17,15 @@ class CatService {
         try {
             let _url = `v1/breeds/search?q=${searchTerm}`;
             const response = await axiosInstance.get(_url);
-            let breedResults = response.data.map(breed => {
-                id: breed.id;
-                name: breed.name;
-            })
+            let breedResults = [];
+            response.data.map(breed => {
+                    let breedSummary = {
+                        id: breed.id,
+                        name: breed.name
+                    };
+                    breedResults.push(breedSummary);
+                }
+            );
             return breedResults;
         } catch (e) {
             console.log(e)
@@ -37,7 +42,6 @@ class CatService {
                 case 1: return this._mapToBreedDetail(response.data[0]);
                 default: console.log(`Error retrieving breed details. More than 1 breed found for breed id ${breedId}`)
             }
-            
         } catch (e) {
             console.log(e)
         }

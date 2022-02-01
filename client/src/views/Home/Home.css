@@ -1,15 +1,20 @@
-.CatSearch {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    /*height:100vh;*/
+.home-title {
+    text-align: center;
+    font-weight: bold;
+    margin: 10px;
 }
 
 .search-bar {
     display: flex;
-    /*flex-direction: column;*/
+    justify-content: center;
+    margin: 10px;
+    text-align: center;
+}
+
+.cat-search {
+    display: flex;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
-    /*height:100vh;*/
+    margin: 10px;
 }

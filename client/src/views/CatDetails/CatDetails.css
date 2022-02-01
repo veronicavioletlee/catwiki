@@ -1,9 +1,13 @@
-.DetailTitle {
+.detail-title {
     font-weight: bold;
 }
 
 .breed-detail {
     margin-bottom: 10px;
+}
+
+.breed-details {
+    margin: 12px;
 }
 
 .btn-custom {
