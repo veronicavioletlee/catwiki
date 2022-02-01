@@ -25,11 +25,6 @@ app.get('/api/breeds/:breedId', async (req, res) => {
   res.json(response);
 })
 
-// app.get('/api/breeds', async (req, res) => {
-//   let response = await catService.getCatBreeds();
-//   res.json(response);
-// })
-
 // All other GET requests not handled before will return our React app
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
