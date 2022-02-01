@@ -1,83 +1,35 @@
 # CatWiki
 
-This is a basic template to get you started with the CatWiki challenge.
-It contains a frontend and a backend, with some very basic interaction
-between them. Feel free to modify whatever you wish, or to start 
-completely from scratch! :smiley_cat:
+This repo contains the source code for Veronica Lee's Blowfish Studios full-stack coding challenge. 
+It's a simple web application, using NodeJS for the backend and ReactJS for the frontend.
 
-## Starting the backend
+## Using the app
+You can access my CatWiki at
+`http://catwiki-veronicalee.herokuapp.com`
 
-To start up the backend Node.js server, run the following command in your
-terminal (note: you'll need to have Node v16.x or above installed):
+## Requirements
 
-```
-npm start
-```
+The user stories delivered include:
+1. I can search for cat breeds from the homepage and select a breed of my choice from a list
+2. I can see the breed details including description, temperament, origin, life span, adaptability, affection level, child-friendly, grooming, intelligence, health issues, social needs, stranger friendly
+3. I can see more photos of the breed on the breed details page
 
-The server will run on port 3001 by default. You can test it by running
-something like this:
+## Process
 
-```
-curl localhost:3001/api
-{"message":"Hello from CatWiki!"}
-```
+I worked through the requirements in the order above. When building each requirement I started with the backend endpoint, 
+followed by a working frontend implementation, tests, refactoring and then basic styling.
 
-## Starting the frontend
+One setback I had was misunderstanding The Cat API documentation, resulting in me not realising there was an endpoint
+to retrieve details of a breed by breed ID until I had built most of it. When switching to use this endpoint it meant that a child component
+would now fetch the information itself rather than receiving as props, so it had a bit of a knock-on effect on the tests also.
 
-Open a new tab, and run the following commands in your terminal:
+I would have liked to improve on the test coverage and the styling, but given time constraints I've kept it light.
 
-```
-cd client
-npm start
-```
+## Modules / Libraries
 
-This should open up a new page in your default web browser at `localhost:3000`.
-At this point, you should see the placeholder CatWiki app homepage.
+This app uses the following modules, in addition to those that were already implemented in the template:
 
-## Running frontend tests
-
-From the `client` directory, run the following:
-
-```
-npm test
-```
-
-This will run the test suite for you.
-
-## Deploying to Heroku
-
-First, make sure you have a Heroku account, and have successfully logged
-in to Heroku on the command line via `heroku login`.
-
-You'll need to create a new Heroku app (if you haven't already). You can
-do this with the following (replace `${insert-your-app-name-here}` with the
-word `catwiki` followed by your actual name, e.g. `catwiki-johnsmith`):
-
-```
-heroku app:create ${insert-your-app-name-here}
-```
-
-Next we need to add a Git remote for Heroku and commit any changes:
-
-```
-heroku git:remote -a ${insert-your-app-name-here}
-git add .
-git commit -am "Deploy app to Heroku"
-```
-
-Finally we can push our code to the Heroku remote, which will automatically
-build and run our app for us. 
-
-```
-git push heroku master
-```
-
-You'll then be able to access your app at 
-`http://${insert-your-app-name-here}.herokuapp.com`! :tada:
-
-## Pushing changes to your GitHub repository
-
-```
-git remote add origin git@github.com:${your-github-username}/catwiki.git
-git push origin master
-```
+|      Name      | Usage  |
+| :------------- | :---------- |
+|  Axios  | Http client for requests to The Cat APIs  |
+|  React-Bootstrap  | Provides native Bootstrap components as React components  |
